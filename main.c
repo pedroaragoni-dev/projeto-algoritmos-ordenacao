@@ -3,47 +3,50 @@
 #include <time.h>
 
 #include "gerador.h"
+#include "algoritmos.h"
+#include "metricas.h"
+
+#define TAMANHO 10000
 
 int main() {
 
-    int tamanho = 5;
+    int tamanho = TAMANHO;
 
-    int original[5];
-    int copia[5];
+    int original[TAMANHO];
+    int vetorBubble[TAMANHO];
+    int vetorSelection[TAMANHO];
+    int vetorInsertion[TAMANHO];
 
-    /*
-        Inicializa a geracao de numeros aleatorios.
-        Fazemos isso apenas uma vez no inicio do programa.
-    */
     srand(time(NULL));
 
-
-    // Teste do vetor aleatorio
+    // Gera apenas um vetor original
     gerarAleatorio(original, tamanho);
 
-    printf("Vetor aleatorio: ");
-    exibirVetor(original, tamanho);
+    /*
+        Cada algoritmo recebe uma copia
+        exatamente igual do vetor original.
+    */
+    copiarVetor(original, vetorBubble, tamanho);
+    copiarVetor(original, vetorSelection, tamanho);
+    copiarVetor(original, vetorInsertion, tamanho);
+
+    // Bubble Sort
+    Metricas metricasBubble =
+        bubbleSort(vetorBubble, tamanho);
 
 
-    // Teste da copia do vetor
-    copiarVetor(original, copia, tamanho);
+    // Selection Sort
+    Metricas metricasSelection =
+        selectionSort(vetorSelection, tamanho);
 
-    printf("Copia do vetor: ");
-    exibirVetor(copia, tamanho);
-
-
-    // Teste do vetor ordenado
-    gerarOrdenado(original, tamanho);
-
-    printf("Vetor ordenado: ");
-    exibirVetor(original, tamanho);
+    Metricas metricasInsertion =
+        insertionSort(vetorInsertion, tamanho);
 
 
-    // Teste do vetor inverso
-    gerarInverso(original, tamanho);
-
-    printf("Vetor inverso: ");
-    exibirVetor(original, tamanho);
-
+    // Exibe os resultados
+    exibirMetricas(metricasBubble);
+    exibirMetricas(metricasSelection);
+    exibirMetricas(metricasInsertion);
+    
     return 0;
 }
